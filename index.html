@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Especial ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,192,203,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .step {
+            display: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            color: #555;
+            margin-bottom: 25px;
+            font-size: 1.5em;
+        }
+
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="date"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .movie-options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .movie-card {
+            cursor: pointer;
+            padding: 20px;
+            border: 3px solid #ddd;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            flex: 1;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .movie-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .movie-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .final-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+        }
+
+        .btn-no {
+            background: linear-gradient(135deg, #f44336, #da190b);
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .btn-no:hover {
+            transform: translate(20px, -10px) !important;
+        }
+
+        .receipt {
+            background: #f8f9fa;
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .receipt h3 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .receipt-item {
+            margin: 10px 0;
+            padding: 5px 0;
+            border-bottom: 1px dotted #ccc;
+        }
+
+        .hearts {
+            color: #ff69b4;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #eee;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .movie-options {
+                flex-direction: column;
+            }
+            
+            .final-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <!-- Passo 1: Nome -->
+        <div class="step active" id="step1">
+            <h1>Oi! <span class="hearts">❤️</span></h1>
+            <h2>Qual é o seu nome?</h2>
+            <input type="text" id="nome" placeholder="Digite seu nome aqui..." maxlength="50">
+            <br>
+            <button class="btn" onclick="nextStep(1)">Continuar</button>
+        </div>
+
+        <!-- Passo 2: Cor favorita -->
+        <div class="step" id="step2">
+            <h2>Qual é a sua cor favorita?</h2>
+            <input type="text" id="cor" placeholder="Ex: Azul, Rosa, Verde..." maxlength="30">
+            <br>
+            <button class="btn" onclick="nextStep(2)">Próximo</button>
+        </div>
+
+        <!-- Passo 3: Filme -->
+        <div class="step" id="step3">
+            <h2>Qual filme você prefere?</h2>
+            <div class="movie-options">
+                <div class="movie-card" onclick="selectMovie('Demon Slayer')">
+                    <div>🗡️</div>
+                    <h3>Demon Slayer</h3>
+                    <p>Anime épico</p>
+                </div>
+                <div class="movie-card" onclick="selectMovie('Invocação do Mal')">
+                    <div>👻</div>
+                    <h3>Invocação do Mal</h3>
+                    <p>Terror clássico</p>
+                </div>
+            </div>
+            <button class="btn" onclick="nextStep(3)" id="movieBtn" disabled>Próximo</button>
+        </div>
+
+        <!-- Passo 4: Data -->
+        <div class="step" id="step4">
+            <h2>Escolha uma data especial:</h2>
+            <input type="date" id="data">
+            <br><br>
+            <button class="btn" onclick="nextStep(4)">Próximo</button>
+        </div>
+
+        <!-- Passo 5: Pergunta final -->
+        <div class="step" id="step5">
+            <h2>E agora a pergunta mais importante...</h2>
+            <h1><span class="hearts">💕</span> Você aceita sair comigo? <span class="hearts">💕</span></h1>
+            <div class="final-buttons">
+                <button class="btn btn-yes" onclick="acceptDate()">SIM! ❤️</button>
+                <button class="btn btn-no" id="btnNo" onclick="tryReject()">Não</button>
+            </div>
+        </div>
+
+        <!-- Passo 6: Comprovante -->
+        <div class="step" id="step6">
+            <h1><span class="hearts">🎉</span> Que maravilha! <span class="hearts">🎉</span></h1>
+            <h2>Aqui está o seu comprovante:</h2>
+            <div class="receipt" id="receipt">
+                <!-- Conteúdo será preenchido pelo JavaScript -->
+            </div>
+            <button class="btn" onclick="sendToWhatsApp()">Enviar para WhatsApp 📱</button>
+            <button class="btn" onclick="restart()" style="background: #6c757d;">Recomeçar</button>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let answers = {};
+        let rejectionCount = 0;
+
+        function updateProgress() {
+            const progress = (currentStep / 6) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function nextStep(step) {
+            // Validar entrada atual
+            if (step === 1) {
+                const nome = document.getElementById('nome').value.trim();
+                if (!nome) {
+                    alert('Por favor, digite seu nome!');
+                    return;
+                }
+                answers.nome = nome;
+            } else if (step === 2) {
+                const cor = document.getElementById('cor').value.trim();
+                if (!cor) {
+                    alert('Por favor, digite sua cor favorita!');
+                    return;
+                }
+                answers.cor = cor;
+            } else if (step === 3) {
+                if (!answers.filme) {
+                    alert('Por favor, escolha um filme!');
+                    return;
+                }
+            } else if (step === 4) {
+                const data = document.getElementById('data').value;
+                if (!data) {
+                    alert('Por favor, escolha uma data!');
+                    return;
+                }
+                answers.data = new Date(data).toLocaleDateString('pt-BR');
+            }
+
+            // Ocultar passo atual
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            
+            // Mostrar próximo passo
+            currentStep++;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            
+            updateProgress();
+        }
+
+        function selectMovie(movie) {
+            // Remover seleção anterior
+            document.querySelectorAll('.movie-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Selecionar novo filme
+            event.target.closest('.movie-card').classList.add('selected');
+            answers.filme = movie;
+            
+            // Habilitar botão
+            document.getElementById('movieBtn').disabled = false;
+        }
+
+        function tryReject() {
+            rejectionCount++;
+            const btnNo = document.getElementById('btnNo');
+            
+            const messages = [
+                "Tem certeza? 🥺",
+                "Pensa melhor... 💭",
+                "Vai que é divertido! 😄",
+                "Última chance! 🙏",
+                "O botão está fugindo! 🏃‍♂️"
+            ];
+            
+            if (rejectionCount <= messages.length) {
+                btnNo.textContent = messages[rejectionCount - 1];
+                btnNo.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`;
+                
+                if (rejectionCount >= 3) {
+                    btnNo.style.fontSize = Math.max(12, 16 - rejectionCount) + 'px';
+                }
+                
+                if (rejectionCount >= 5) {
+                    btnNo.style.display = 'none';
+                }
+            }
+        }
+
+        function acceptDate() {
+            answers.resposta = 'SIM! ❤️';
+            
+            // Ocultar passo atual
+            document.getElementById(`step${currentStep}`).classList.remove('active');
+            
+            // Mostrar comprovante
+            currentStep++;
+            document.getElementById(`step${currentStep}`).classList.add('active');
+            updateProgress();
+            
+            generateReceipt();
+        }
+
+        function generateReceipt() {
+            const now = new Date();
+            const receiptHTML = `
+                <h3>🎫 COMPROVANTE DE ENCONTRO 🎫</h3>
+                <div class="receipt-item"><strong>Nome:</strong> ${answers.nome}</div>
+                <div class="receipt-item"><strong>Cor favorita:</strong> ${answers.cor}</div>
+                <div class="receipt-item"><strong>Filme escolhido:</strong> ${answers.filme}</div>
+                <div class="receipt-item"><strong>Data especial:</strong> ${answers.data}</div>
+                <div class="receipt-item"><strong>Aceita sair comigo:</strong> ${answers.resposta}</div>
+                <div class="receipt-item"><strong>Gerado em:</strong> ${now.toLocaleString('pt-BR')}</div>
+                <div style="text-align: center; margin-top: 15px; color: #ff69b4;">
+                    <strong>❤️ ENCONTRO CONFIRMADO! ❤️</strong>
+                </div>
+            `;
+            
+            document.getElementById('receipt').innerHTML = receiptHTML;
+        }
+
+        function sendToWhatsApp() {
+            const message = `🎉 ENCONTRO CONFIRMADO! 🎉
+
+📝 *Detalhes do Comprovante:*
+👤 *Nome:* ${answers.nome}
+🎨 *Cor favorita:* ${answers.cor}
+🎬 *Filme escolhido:* ${answers.filme}
+📅 *Data especial:* ${answers.data}
+💕 *Aceita sair comigo:* ${answers.resposta}
+
+⏰ *Gerado em:* ${new Date().toLocaleString('pt-BR')}
+
+Não pode voltar atrás agora! 😄❤️`;
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappURL = `https://wa.me/?text=${encodedMessage}`;
+            
+            window.open(whatsappURL, '_blank');
+        }
+
+        function restart() {
+            currentStep = 1;
+            answers = {};
+            rejectionCount = 0;
+            
+            // Limpar formulários
+            document.getElementById('nome').value = '';
+            document.getElementById('cor').value = '';
+            document.getElementById('data').value = '';
+            
+            // Resetar seleção de filme
+            document.querySelectorAll('.movie-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.getElementById('movieBtn').disabled = true;
+            
+            // Resetar botão "Não"
+            const btnNo = document.getElementById('btnNo');
+            btnNo.textContent = 'Não';
+            btnNo.style.transform = '';
+            btnNo.style.fontSize = '';
+            btnNo.style.display = '';
+            
+            // Mostrar primeiro passo
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.getElementById('step1').classList.add('active');
+            
+            updateProgress();
+        }
+
+        // Inicializar barra de progresso
+        updateProgress();
+    </script>
+</body>
+</html>
