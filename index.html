@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +25,7 @@
         .container {
             background: white;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
             padding: 40px;
             max-width: 500px;
             width: 100%;
@@ -40,14 +41,19 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,192,203,0.1), transparent);
+            background: linear-gradient(45deg, transparent, rgba(255, 192, 203, 0.1), transparent);
             transform: rotate(45deg);
             animation: shimmer 3s infinite;
         }
 
         @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
         }
 
         .step {
@@ -62,8 +68,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h1 {
@@ -78,7 +91,8 @@
             font-size: 1.5em;
         }
 
-        input[type="text"], input[type="date"] {
+        input[type="text"],
+        input[type="date"] {
             width: 100%;
             padding: 15px;
             border: 2px solid #ddd;
@@ -88,19 +102,25 @@
             transition: all 0.3s ease;
         }
 
-        input[type="text"]:focus, input[type="date"]:focus {
+        input[type="text"]:focus,
+        input[type="date"]:focus {
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
         }
 
+        .choice-options,
+        .music-options,
         .movie-options {
             display: flex;
             gap: 20px;
             justify-content: center;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
+        .choice-card,
+        .music-card,
         .movie-card {
             cursor: pointer;
             padding: 20px;
@@ -109,13 +129,19 @@
             transition: all 0.3s ease;
             background: #f8f9fa;
             flex: 1;
+            min-width: 150px;
+            max-width: 200px;
         }
 
+        .choice-card:hover,
+        .music-card:hover,
         .movie-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
         }
 
+        .choice-card.selected,
+        .music-card.selected,
         .movie-card.selected {
             border-color: #667eea;
             background: linear-gradient(135deg, #667eea, #764ba2);
@@ -200,9 +226,17 @@
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
         .progress-bar {
@@ -226,17 +260,20 @@
                 padding: 20px;
                 margin: 10px;
             }
-            
+
+            .choice-options,
+            .music-options,
             .movie-options {
                 flex-direction: column;
             }
-            
+
             .final-buttons {
                 flex-direction: column;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="progress-bar">
@@ -245,61 +282,101 @@
 
         <!-- Passo 1: Nome -->
         <div class="step active" id="step1">
-            <h1>Oi! <span class="hearts">❤️</span></h1>
-            <h2>Qual é o seu nome?</h2>
+            <h1>Oi, manu! <span class="hearts">❤️</span></h1>
+            <h2>Deixa aqui teu nome:</h2>
             <input type="text" id="nome" placeholder="Digite seu nome aqui..." maxlength="50">
             <br>
             <button class="btn" onclick="nextStep(1)">Continuar</button>
         </div>
 
-        <!-- Passo 2: Cor favorita -->
+        <!-- Passo 2: Pergunta divertida -->
         <div class="step" id="step2">
-            <h2>Qual é a sua cor favorita?</h2>
-            <input type="text" id="cor" placeholder="Ex: Azul, Rosa, Verde..." maxlength="30">
-            <br>
-            <button class="btn" onclick="nextStep(2)">Próximo</button>
+            <h2>Antes de tudo, pergunta filosófica importante:</h2>
+            <p style="margin-bottom: 20px; font-size: 1.1em; color: #555;">Você prefere lutar contra...</p>
+            <div class="choice-options">
+                <div class="choice-card" onclick="selectChoice('1 pato do tamanho de um cavalo')">
+                    <h3>1 Pato Gigante</h3>
+                    <p>Do tamanho de um cavalo</p>
+                </div>
+                <div class="choice-card" onclick="selectChoice('100 cavalos do tamanho de um pato')">
+                    <h3>10 Cavalos Minúsculos</h3>
+                    <p>Do tamanho de um pato</p>
+                </div>
+
+            </div>
+            <p style="margin-bottom: 20px; font-size: 1.1em; color: #555;">Pensa numa boa justificativa, vou querer a
+                info depois</p>
+            <button class="btn" onclick="nextStep(2)" id="choiceBtn" disabled>Próximo</button>
         </div>
 
-        <!-- Passo 3: Filme -->
+        <!-- Passo 3: Música -->
         <div class="step" id="step3">
-            <h2>Qual filme você prefere?</h2>
+            <h2>Qual desses aqui ?</h2>
+            <div class="music-options">
+                <div class="music-card" onclick="selectMusic('Justin - One Less Lonely Girl')">
+                    <h3>Justin Bieber</h3>
+                    <p>One Less Lonely Girl</p>
+                </div>
+                <div class="music-card" onclick="selectMusic('Mastruz com leite - Saga de um vaqueiro')">
+                    <h3>Mastruz com leite</h3>
+                    <p>Saga de um vaqueiro</p>
+                </div>
+                <div class="music-card" onclick="selectMusic('Leo Magalhães - Oi')">
+                    <h3>Leo Magalhães </h3>
+                    <p>Oi</p>
+
+                </div>
+            </div>
+            <div style="margin: 20px 0;">
+                <div class="music-card" onclick="selectOther()" style="max-width: 100%;">
+                    <h3>Outros</h3>
+                    <p>recomende outra pedrada!!</p>
+                </div>
+            </div>
+            <div id="otherMusicDiv" style="display: none; margin: 20px 0;">
+                <input type="text" id="otherMusic" placeholder="Mande..." maxlength="100">
+            </div>
+            <button class="btn" onclick="nextStep(3)" id="musicBtn" disabled>Próximo</button>
+        </div>
+
+        <!-- Passo 4: Filme -->
+        <div class="step" id="step4">
+            <h2>Qual filme você quer ver nos cinemas nos proximos dias?</h2>
             <div class="movie-options">
                 <div class="movie-card" onclick="selectMovie('Demon Slayer')">
-                    <div>🗡️</div>
                     <h3>Demon Slayer</h3>
-                    <p>Anime épico</p>
+                    <p>Especial michael jackson</p>
                 </div>
                 <div class="movie-card" onclick="selectMovie('Invocação do Mal')">
-                    <div>👻</div>
                     <h3>Invocação do Mal</h3>
-                    <p>Terror clássico</p>
+                    <p>Boatos que é de romance K</p>
                 </div>
             </div>
-            <button class="btn" onclick="nextStep(3)" id="movieBtn" disabled>Próximo</button>
+            <button class="btn" onclick="nextStep(4)" id="movieBtn" disabled>Próximo</button>
         </div>
 
-        <!-- Passo 4: Data -->
-        <div class="step" id="step4">
-            <h2>Escolha uma data especial:</h2>
+        <!-- Passo 5: Data -->
+        <div class="step" id="step5">
+            <h2>Escolha uma data:</h2>
             <input type="date" id="data">
             <br><br>
-            <button class="btn" onclick="nextStep(4)">Próximo</button>
+            <button class="btn" onclick="nextStep(5)">Próximo</button>
         </div>
 
-        <!-- Passo 5: Pergunta final -->
-        <div class="step" id="step5">
+        <!-- Passo 6: Pergunta final -->
+        <div class="step" id="step6">
             <h2>E agora a pergunta mais importante...</h2>
-            <h1><span class="hearts">💕</span> Você aceita sair comigo? <span class="hearts">💕</span></h1>
+            <h1> Você aceita ver um filminho cmg? <span class="hearts">💕</span></h1>
             <div class="final-buttons">
-                <button class="btn btn-yes" onclick="acceptDate()">SIM! ❤️</button>
-                <button class="btn btn-no" id="btnNo" onclick="tryReject()">Não</button>
+                <button class="btn btn-yes" onclick="acceptDate()">SIIIM! ❤️</button>
+                <button class="btn btn-no" id="btnNo" onclick="tryReject()">Não, F</button>
             </div>
         </div>
 
-        <!-- Passo 6: Comprovante -->
-        <div class="step" id="step6">
-            <h1><span class="hearts">🎉</span> Que maravilha! <span class="hearts">🎉</span></h1>
-            <h2>Aqui está o seu comprovante:</h2>
+        <!-- Passo 7: Comprovante -->
+        <div class="step" id="step7">
+            <h1> amoo! <span class="hearts">🎉</span></h1>
+            <h2>Aqui está o seu comprovante - ME MANDA NO WHATSSS</h2>
             <div class="receipt" id="receipt">
                 <!-- Conteúdo será preenchido pelo JavaScript -->
             </div>
@@ -314,7 +391,7 @@
         let rejectionCount = 0;
 
         function updateProgress() {
-            const progress = (currentStep / 6) * 100;
+            const progress = (currentStep / 7) * 100;
             document.getElementById('progressFill').style.width = progress + '%';
         }
 
@@ -328,18 +405,21 @@
                 }
                 answers.nome = nome;
             } else if (step === 2) {
-                const cor = document.getElementById('cor').value.trim();
-                if (!cor) {
-                    alert('Por favor, digite sua cor favorita!');
+                if (!answers.escolha) {
+                    alert('Por favor, faça sua escolha entre as opções!');
                     return;
                 }
-                answers.cor = cor;
             } else if (step === 3) {
+                if (!answers.musica) {
+                    alert('Por favor, escolha uma música!');
+                    return;
+                }
+            } else if (step === 4) {
                 if (!answers.filme) {
                     alert('Por favor, escolha um filme!');
                     return;
                 }
-            } else if (step === 4) {
+            } else if (step === 5) {
                 const data = document.getElementById('data').value;
                 if (!data) {
                     alert('Por favor, escolha uma data!');
@@ -350,12 +430,68 @@
 
             // Ocultar passo atual
             document.getElementById(`step${currentStep}`).classList.remove('active');
-            
+
             // Mostrar próximo passo
             currentStep++;
             document.getElementById(`step${currentStep}`).classList.add('active');
-            
+
             updateProgress();
+        }
+
+        function selectChoice(choice) {
+            // Remover seleção anterior
+            document.querySelectorAll('.choice-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Selecionar nova opção
+            event.target.closest('.choice-card').classList.add('selected');
+            answers.escolha = choice;
+
+            // Habilitar botão
+            document.getElementById('choiceBtn').disabled = false;
+        }
+
+        function selectMusic(music) {
+            // Remover seleção anterior
+            document.querySelectorAll('.music-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Selecionar nova música
+            event.target.closest('.music-card').classList.add('selected');
+            answers.musica = music;
+
+            // Esconder campo "outros"
+            document.getElementById('otherMusicDiv').style.display = 'none';
+
+            // Habilitar botão
+            document.getElementById('musicBtn').disabled = false;
+        }
+
+        function selectOther() {
+            // Remover seleção anterior
+            document.querySelectorAll('.music-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Selecionar "outros"
+            event.target.closest('.music-card').classList.add('selected');
+
+            // Mostrar campo de texto
+            document.getElementById('otherMusicDiv').style.display = 'block';
+            document.getElementById('otherMusic').focus();
+
+            // Verificar se já digitou algo
+            const otherMusicInput = document.getElementById('otherMusic');
+            otherMusicInput.addEventListener('input', function () {
+                if (this.value.trim()) {
+                    answers.musica = this.value.trim();
+                    document.getElementById('musicBtn').disabled = false;
+                } else {
+                    document.getElementById('musicBtn').disabled = true;
+                }
+            });
         }
 
         function selectMovie(movie) {
@@ -363,11 +499,11 @@
             document.querySelectorAll('.movie-card').forEach(card => {
                 card.classList.remove('selected');
             });
-            
+
             // Selecionar novo filme
             event.target.closest('.movie-card').classList.add('selected');
             answers.filme = movie;
-            
+
             // Habilitar botão
             document.getElementById('movieBtn').disabled = false;
         }
@@ -375,7 +511,7 @@
         function tryReject() {
             rejectionCount++;
             const btnNo = document.getElementById('btnNo');
-            
+
             const messages = [
                 "Tem certeza? 🥺",
                 "Pensa melhor... 💭",
@@ -383,15 +519,15 @@
                 "Última chance! 🙏",
                 "O botão está fugindo! 🏃‍♂️"
             ];
-            
+
             if (rejectionCount <= messages.length) {
                 btnNo.textContent = messages[rejectionCount - 1];
                 btnNo.style.transform = `translate(${Math.random() * 100 - 50}px, ${Math.random() * 100 - 50}px)`;
-                
+
                 if (rejectionCount >= 3) {
                     btnNo.style.fontSize = Math.max(12, 16 - rejectionCount) + 'px';
                 }
-                
+
                 if (rejectionCount >= 5) {
                     btnNo.style.display = 'none';
                 }
@@ -400,15 +536,15 @@
 
         function acceptDate() {
             answers.resposta = 'SIM! ❤️';
-            
+
             // Ocultar passo atual
             document.getElementById(`step${currentStep}`).classList.remove('active');
-            
+
             // Mostrar comprovante
             currentStep++;
             document.getElementById(`step${currentStep}`).classList.add('active');
             updateProgress();
-            
+
             generateReceipt();
         }
 
@@ -417,16 +553,17 @@
             const receiptHTML = `
                 <h3>🎫 COMPROVANTE DE ENCONTRO 🎫</h3>
                 <div class="receipt-item"><strong>Nome:</strong> ${answers.nome}</div>
-                <div class="receipt-item"><strong>Cor favorita:</strong> ${answers.cor}</div>
+                <div class="receipt-item"><strong>Escolha filosófica:</strong> ${answers.escolha}</div>
+                <div class="receipt-item"><strong>Música diferenciada:</strong> ${answers.musica}</div>
                 <div class="receipt-item"><strong>Filme escolhido:</strong> ${answers.filme}</div>
-                <div class="receipt-item"><strong>Data especial:</strong> ${answers.data}</div>
+                <div class="receipt-item"><strong>Data pro filminho:</strong> ${answers.data}</div>
                 <div class="receipt-item"><strong>Aceita sair comigo:</strong> ${answers.resposta}</div>
                 <div class="receipt-item"><strong>Gerado em:</strong> ${now.toLocaleString('pt-BR')}</div>
                 <div style="text-align: center; margin-top: 15px; color: #ff69b4;">
-                    <strong>❤️ ENCONTRO CONFIRMADO! ❤️</strong>
+                    <strong>FINALMENTE OS REFRESCOS! ❤️</strong>
                 </div>
             `;
-            
+
             document.getElementById('receipt').innerHTML = receiptHTML;
         }
 
@@ -434,19 +571,20 @@
             const message = `🎉 ENCONTRO CONFIRMADO! 🎉
 
 📝 *Detalhes do Comprovante:*
-👤 *Nome:* ${answers.nome}
-🎨 *Cor favorita:* ${answers.cor}
+👤 *Nome da protagonista:* ${answers.nome}
+🤔 *Escolha filosófica:* ${answers.escolha}
+🎵 *Musiquinha tema:* ${answers.musica}
 🎬 *Filme escolhido:* ${answers.filme}
-📅 *Data especial:* ${answers.data}
+📅 *Data do evento:* ${answers.data}
 💕 *Aceita sair comigo:* ${answers.resposta}
 
 ⏰ *Gerado em:* ${new Date().toLocaleString('pt-BR')}
 
-Não pode voltar atrás agora! 😄❤️`;
+FINALMENTE OS REFRESCOS!❤️`;
 
             const encodedMessage = encodeURIComponent(message);
             const whatsappURL = `https://wa.me/?text=${encodedMessage}`;
-            
+
             window.open(whatsappURL, '_blank');
         }
 
@@ -454,31 +592,36 @@ Não pode voltar atrás agora! 😄❤️`;
             currentStep = 1;
             answers = {};
             rejectionCount = 0;
-            
+
             // Limpar formulários
             document.getElementById('nome').value = '';
-            document.getElementById('cor').value = '';
             document.getElementById('data').value = '';
-            
-            // Resetar seleção de filme
-            document.querySelectorAll('.movie-card').forEach(card => {
+            document.getElementById('otherMusic').value = '';
+
+            // Esconder campo "outros"
+            document.getElementById('otherMusicDiv').style.display = 'none';
+
+            // Resetar seleções
+            document.querySelectorAll('.choice-card, .music-card, .movie-card').forEach(card => {
                 card.classList.remove('selected');
             });
+            document.getElementById('choiceBtn').disabled = true;
+            document.getElementById('musicBtn').disabled = true;
             document.getElementById('movieBtn').disabled = true;
-            
+
             // Resetar botão "Não"
             const btnNo = document.getElementById('btnNo');
             btnNo.textContent = 'Não';
             btnNo.style.transform = '';
             btnNo.style.fontSize = '';
             btnNo.style.display = '';
-            
+
             // Mostrar primeiro passo
             document.querySelectorAll('.step').forEach(step => {
                 step.classList.remove('active');
             });
             document.getElementById('step1').classList.add('active');
-            
+
             updateProgress();
         }
 
@@ -486,4 +629,5 @@ Não pode voltar atrás agora! 😄❤️`;
         updateProgress();
     </script>
 </body>
+
 </html>
