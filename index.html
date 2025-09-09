@@ -270,6 +270,12 @@
             .final-buttons {
                 flex-direction: column;
             }
+
+            .choice-card,
+            .music-card,
+            .movie-card {
+                min-width: 100%;
+            }
         }
     </style>
 </head>
@@ -568,7 +574,7 @@
         }
 
         function sendToWhatsApp() {
-            const message = `🎉 ENCONTRO CONFIRMADO! 🎉
+            const message = `FINALMENTE OS REFRESCOS!❤️
 
 📝 *Detalhes do Comprovante:*
 👤 *Nome da protagonista:* ${answers.nome}
@@ -580,7 +586,7 @@
 
 ⏰ *Gerado em:* ${new Date().toLocaleString('pt-BR')}
 
-FINALMENTE OS REFRESCOS!❤️`;
+`;
 
             const encodedMessage = encodeURIComponent(message);
             const whatsappURL = `https://wa.me/?text=${encodedMessage}`;
